@@ -1,26 +1,34 @@
 import styled from "styled-components";
+import Header from "@components/Header.tsx";
+import Footer from "@components/Footer.tsx";
 
 export default function Notice() {
     return (
-        <Container>
-            <Title>공지사항</Title>
-            <NoticeItem>
-                <NoticeItemTitle>개인정보 처리 방침 약관 안내</NoticeItemTitle>
-                <NoticeItemDate>2025. 12. 26</NoticeItemDate>
-            </NoticeItem>
-            <NoticeItem>
-                <NoticeItemTitle>서비스 이용 약관 안내</NoticeItemTitle>
-                <NoticeItemDate>2025. 12. 26</NoticeItemDate>
-            </NoticeItem>
-        </Container>
+        <>
+            <Header />
+            <Container>
+                <Title>공지사항</Title>
+                <NoticeItem>
+                    <NoticeItemTitle>개인정보 처리 방침 약관 안내</NoticeItemTitle>
+                    <NoticeItemDate>2025. 12. 26</NoticeItemDate>
+                </NoticeItem>
+                <NoticeItem>
+                    <NoticeItemTitle>서비스 이용 약관 안내</NoticeItemTitle>
+                    <NoticeItemDate>2025. 12. 26</NoticeItemDate>
+                </NoticeItem>
+            </Container>
+            <Footer />
+        </>
     )
 }
 
 const Container = styled.div`
-    padding-top: 112px;
-    padding-left: 125px;
-    padding-right: 125px;
+    padding: 112px 125px;
     box-sizing: border-box;
+    
+    @media (max-width: 720px) {
+        padding: 112px 50px;
+    }
 `
 
 const Title = styled.h1`
