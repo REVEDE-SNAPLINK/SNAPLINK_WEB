@@ -21,7 +21,7 @@ export default function Header() {
 
                 {/* Desktop Nav */}
                 <Nav>
-                    <NavLink href="/">공지사항</NavLink>
+                    <NavLink href="/notice">공지사항</NavLink>
                     <NavLink href="/">자주 묻는 질문</NavLink>
                     <NavLink href="/">고객센터</NavLink>
                 </Nav>
