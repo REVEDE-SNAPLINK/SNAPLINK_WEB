@@ -15,7 +15,7 @@ export default async function handler(
         const { name, time, email, contact, message } = req.body;
 
         await resend.emails.send({
-            from: "Snaplink <onboarding@resend.dev>",
+            from: "Snaplink <no-reply@snaplink.run>",
             to: ["snapbridge05@gmail.com"], // 👈 여기 너가 받을 이메일
             subject: `[제휴 문의] ${name}`,
             html: `
