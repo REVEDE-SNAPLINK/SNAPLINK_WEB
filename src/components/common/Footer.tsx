@@ -14,10 +14,17 @@ export default function Footer() {
                 </ContactInfoWrapper>
 
                 <CopyrightWrapper>
-                    <Copyright>© Revede 2026</Copyright>
-                    <CopyrightLink href="/">서비스 이용약관</CopyrightLink>
-                    <CopyrightLink href="/">개인정보 처리방침</CopyrightLink>
+                    <CopyrightLink href="/terms">이용약관</CopyrightLink>
+                    <span style={{ color: "#666" }}>|</span>
+                    <CopyrightLink href="/privacy">개인정보 처리방침</CopyrightLink>
+                    <span style={{ color: "#666" }}>|</span>
+                    <CopyrightLink href="/consent/optional">선택정보 수집 동의</CopyrightLink>
+                    <span style={{ color: "#666" }}>|</span>
+                    <CopyrightLink href="/consent/marketing">마케팅 활용 동의</CopyrightLink>
+                    <span style={{ color: "#666" }}>|</span>
+                    <CopyrightLink href="/consent/notification">마케팅 알림 수신 동의</CopyrightLink>
                 </CopyrightWrapper>
+                <Copyright>© Revede 2026</Copyright>
             </DefaultInfoWrapper>
 
             <SiteMapContainer>
@@ -32,7 +39,6 @@ export default function Footer() {
                     <SiteMapTitle>고객센터</SiteMapTitle>
                     <SiteMapLink href="/">이메일</SiteMapLink>
                     <SiteMapLink href="http://pf.kakao.com/_KasSn">채팅</SiteMapLink>
-                    <SiteMapLink href="/">문의</SiteMapLink>
                 </SiteMapWrapper>
             </SiteMapContainer>
         </Container>
@@ -55,7 +61,7 @@ const Container = styled.footer`
 
 const DefaultInfoWrapper = styled.div`
     width: 100%;
-    max-width: 470px;
+    max-width: 600px;
     display: flex;
     flex-direction: column;
     gap: 18px;
@@ -81,22 +87,26 @@ const ContactInfoText = styled.p`
 const CopyrightWrapper = styled.div`
     display: flex;
     flex-wrap: wrap;
-    gap: 12px 18px;
+    align-items: center;
+    gap: 8px;
     width: 100%;
-    max-width: 440px;
 `;
 
 const Copyright = styled.span`
-    font-size: 18px;
-    font-weight: 600;
-    color: #fff;
+    font-size: 14px;
+    font-weight: 500;
+    color: #ddd;
 `;
 
 const CopyrightLink = styled.a`
-    font-size: 18px;
-    font-weight: 600;
-    color: #fff;
+    font-size: 14px;
+    font-weight: 400;
+    color: #bbb;
     text-decoration: none;
+
+    &:hover {
+        text-decoration: underline;
+    }
 `;
 
 const SiteMapContainer = styled.div`
@@ -131,7 +141,12 @@ const SiteMapTitle = styled.div`
 `;
 
 const SiteMapLink = styled.a`
-    font-size: 18px;
-    color: #fff;
-    margin-top: 20px;
+    font-size: 15px;
+    color: #ddd;
+    margin-top: 12px;
+    text-decoration: none;
+
+    &:hover {
+        text-decoration: underline;
+    }
 `;
