@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import Header from "@components/common/Header";
 import Footer from "@components/common/Footer";
@@ -6,11 +7,26 @@ import CheckIcon from "@assets/icons/check.svg";
 import { useAuthStore } from "@/store/authStore";
 
 export default function Withdraw() {
+    const navigate = useNavigate();
+    const status = useAuthStore((state) => state.status);
+    const bootstrapped = useAuthStore((state) => state.bootstrapped);
     const withdraw = useAuthStore((state) => state.withdraw);
     const [reason, setReason] = useState<string>("");
     const [feedback, setFeedback] = useState<string>("");
     const [isAgreed, setIsAgreed] = useState<boolean>(false);
     const [loading, setLoading] = useState<boolean>(false);
+
+    // 로그인 체크 및 리다이렉션
+    useEffect(() => {
+        if (!bootstrapped) {
+            return;
+        }
+
+        if (status !== "authed") {
+            // 로그인 안되어 있으면 로그인 페이지로 리다이렉션
+            navigate("/auth/kakao", { replace: true });
+        }
+    }, [status, bootstrapped, navigate]);
 
     const reasons = [
         { value: "service_not_useful", label: "서비스가 유용하지 않아서" },
@@ -22,6 +38,11 @@ export default function Withdraw() {
     ];
 
     const valid = reason !== "" && isAgreed;
+
+    // 로그인되지 않은 경우 페이지를 렌더링하지 않음
+    if (!bootstrapped || status !== "authed") {
+        return null;
+    }
 
     const handleSubmit = async () => {
         if (!valid || loading) return;
@@ -37,7 +58,7 @@ export default function Withdraw() {
             await withdraw();
 
             alert("탈퇴 처리가 완료되었습니다. 이용해주셔서 감사합니다.");
-            window.location.href = "/";
+            window.location.href = "/customer-service";
         } catch (error) {
             console.error(error);
             alert("탈퇴 처리 중 오류가 발생했습니다. 잠시 후 다시 시도해주세요.");

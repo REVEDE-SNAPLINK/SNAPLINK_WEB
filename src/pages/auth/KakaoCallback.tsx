@@ -67,9 +67,9 @@ export default function KakaoCallback() {
                     setStatus("success");
                     setMessage("로그인 성공! 잠시 후 이동합니다...");
 
-                    // 로그인 성공 후 홈으로 리다이렉트
+                    // 로그인 성공 후 고객센터로 리다이렉트
                     setTimeout(() => {
-                        window.location.href = "/";
+                        window.location.href = "/customer-service";
                     }, 2000);
                 }
             } catch (err) {

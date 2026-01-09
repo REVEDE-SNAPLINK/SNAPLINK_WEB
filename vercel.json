@@ -11,6 +11,16 @@
       "dest": "/api/link"
     },
     {
+      "src": "/",
+      "has": [
+        {
+          "type": "host",
+          "value": "support.snaplink.run"
+        }
+      ],
+      "dest": "/customer-service"
+    },
+    {
       "src": "/api/(.*)",
       "dest": "/api/$1"
     },
