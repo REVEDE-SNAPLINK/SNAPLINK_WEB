@@ -11,12 +11,9 @@ export default function KakaoLogin() {
         setLoading(true);
         setError(null);
 
-        const redirectUri = window.location.origin + 'http://localhost:5173' 
-            ? 'http://localhost:5173/auth/kakao/callback'
-            : window.location.origin + "https://snaplink-web-mu.vercel.app"
-            ? "https://snaplink-web-mu.vercel.app/auth/kakao/callback"
-            : 'https://support.snaplink.run/auth/kakao/callback';
-
+        const redirectUri = "https://snaplink-web-mu.vercel.app/auth/kakao/callback"
+        // const redirectUri = "'https://support.snaplink.run/auth/kakao/callback'"
+        
         const restApiKey = import.meta.env.VITE_KAKAO_REST_API_KEY;
 
         if (!restApiKey) {
