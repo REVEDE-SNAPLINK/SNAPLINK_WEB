@@ -10,6 +10,7 @@ import MarketingNotificationConsent from "@pages/legal/MarketingNotificationCons
 import KakaoLogin from "@pages/auth/KakaoLogin";
 import KakaoCallback from "@pages/auth/KakaoCallback";
 import Withdraw from "@pages/auth/Withdraw";
+import CustomerService from "@pages/CustomerService";
 
 function App () {
     return (
@@ -26,6 +27,7 @@ function App () {
                 <Route path="/auth/kakao" element={<KakaoLogin />} />
                 <Route path="/auth/kakao/callback" element={<KakaoCallback />} />
                 <Route path="/withdraw" element={<Withdraw />} />
+                <Route path="/customer-service" element={<CustomerService />} />
             </Routes>
         </BrowserRouter>
     )
