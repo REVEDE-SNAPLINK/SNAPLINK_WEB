@@ -14,6 +14,10 @@ export default defineConfig({
       { find: '@pages', replacement: path.resolve(__dirname, 'src/pages') },
       { find: '@styles', replacement: path.resolve(__dirname, 'src/styles') },
       { find: '@hooks', replacement: path.resolve(__dirname, 'src/hooks') },
+      { find: '@/config', replacement: path.resolve(__dirname, 'src/config') },
+      { find: '@/api', replacement: path.resolve(__dirname, 'src/api') },
+      { find: '@/auth', replacement: path.resolve(__dirname, 'src/auth') },
+      { find: '@/store', replacement: path.resolve(__dirname, 'src/store') },
     ]
   }
 })

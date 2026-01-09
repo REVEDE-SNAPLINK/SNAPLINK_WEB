@@ -7,6 +7,9 @@ import PrivacyPolicy from "@pages/legal/PrivacyPolicy";
 import OptionalInfoConsent from "@pages/legal/OptionalInfoConsent";
 import MarketingConsent from "@pages/legal/MarketingConsent";
 import MarketingNotificationConsent from "@pages/legal/MarketingNotificationConsent";
+import KakaoLogin from "@pages/auth/KakaoLogin";
+import KakaoCallback from "@pages/auth/KakaoCallback";
+import Withdraw from "@pages/auth/Withdraw";
 
 function App () {
     return (
@@ -20,6 +23,9 @@ function App () {
                 <Route path="/consent/optional" element={<OptionalInfoConsent />} />
                 <Route path="/consent/marketing" element={<MarketingConsent />} />
                 <Route path="/consent/notification" element={<MarketingNotificationConsent />} />
+                <Route path="/auth/kakao" element={<KakaoLogin />} />
+                <Route path="/auth/kakao/callback" element={<KakaoCallback />} />
+                <Route path="/withdraw" element={<Withdraw />} />
             </Routes>
         </BrowserRouter>
     )
