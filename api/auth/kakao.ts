@@ -22,9 +22,18 @@ export default async function handler(
             return res.status(500).json({ message: "카카오 API 설정이 올바르지 않습니다." });
         }
 
-        const redirectUri = req.headers.host?.includes('localhost')
-            ? 'http://localhost:5173/auth/kakao/callback'
-            : 'https://support.snaplink.run/auth/kakao/callback';
+        // 현재 요청 호스트를 기반으로 리다이렉트 URI 결정
+        const host = req.headers.host || '';
+        const protocol = req.headers['x-forwarded-proto'] || (host.includes('localhost') ? 'http' : 'https');
+        
+        let redirectUri: string;
+        if (host.includes('localhost')) {
+            redirectUri = 'http://localhost:5173/auth/kakao/callback';
+        } else if (host.includes('vercel.app')) {
+            redirectUri = `https://${host}/auth/kakao/callback`;
+        } else {
+            redirectUri = 'https://support.snaplink.run/auth/kakao/callback';
+        }
 
         // 1. 인가 코드로 토큰 받기
         const tokenResponse = await fetch("https://kauth.kakao.com/oauth/token", {
@@ -42,9 +51,24 @@ export default async function handler(
         });
 
         if (!tokenResponse.ok) {
-            const errorData = await tokenResponse.json();
-            console.error("Token error:", errorData);
-            return res.status(400).json({ message: "토큰 발급에 실패했습니다." });
+            const errorText = await tokenResponse.text();
+            let errorData: { error?: string; error_description?: string } = {};
+            try {
+                errorData = JSON.parse(errorText);
+            } catch {
+                // JSON 파싱 실패 시 무시
+            }
+            console.error("Token error:", {
+                status: tokenResponse.status,
+                statusText: tokenResponse.statusText,
+                error: errorData,
+                redirectUri,
+                host: req.headers.host,
+            });
+            return res.status(400).json({ 
+                message: errorData.error_description || errorData.error || "토큰 발급에 실패했습니다.",
+                error: errorData,
+            });
         }
 
         const tokenData = await tokenResponse.json();

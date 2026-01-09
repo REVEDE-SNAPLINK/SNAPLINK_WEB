@@ -11,8 +11,8 @@ export default function KakaoLogin() {
         setLoading(true);
         setError(null);
 
-        const redirectUri = "https://snaplink-web-mu.vercel.app/auth/kakao/callback"
-        // const redirectUri = "'https://support.snaplink.run/auth/kakao/callback'"
+        // 현재 도메인을 기반으로 리다이렉트 URI 설정
+        const redirectUri = `${window.location.origin}/auth/kakao/callback`;
         
         const restApiKey = import.meta.env.VITE_KAKAO_REST_API_KEY;
 
