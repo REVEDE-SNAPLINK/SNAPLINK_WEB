@@ -1,4 +1,6 @@
-import {BrowserRouter, Route, Routes} from "react-router-dom";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import Header from "@components/common/Header";
+import Footer from "@components/common/Footer";
 import Home from "@pages/Home";
 import Notice from "@pages/Notice.tsx";
 import FAQ from "@pages/FAQ.tsx";
@@ -11,10 +13,12 @@ import KakaoLogin from "@pages/auth/KakaoLogin";
 import KakaoCallback from "@pages/auth/KakaoCallback";
 import Withdraw from "@pages/auth/Withdraw";
 import CustomerService from "@pages/CustomerService";
+import EventInquiry from "@pages/EventInquiry";
 
-function App () {
+function App() {
     return (
         <BrowserRouter>
+            <Header />
             <Routes>
                 <Route path="/" element={<Home />} />
                 <Route path="/notice" element={<Notice />} />
@@ -28,7 +32,9 @@ function App () {
                 <Route path="/auth/kakao/callback" element={<KakaoCallback />} />
                 <Route path="/withdraw" element={<Withdraw />} />
                 <Route path="/customer-service" element={<CustomerService />} />
+                <Route path="/event-inquiry" element={<EventInquiry />} />
             </Routes>
+            <Footer />
         </BrowserRouter>
     )
 }

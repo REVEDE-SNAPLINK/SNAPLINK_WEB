@@ -1,6 +1,4 @@
 import styled from "styled-components";
-import Header from "@components/common/Header";
-import Footer from "@components/common/Footer";
 import GooglePlayIcon from "@assets/icons/download-google-play.svg";
 import AppStoreIcon from "@assets/icons/download-app-store.svg";
 import BannerImage from "@assets/imgs/banner.png";
@@ -13,8 +11,6 @@ import InquiryForm from "@components/Home/InquiryForm.tsx";
 export default function Home() {
     return (
         <>
-            <Header />
-
             <Banner url={BannerImage}>
                 <BannerText>
                     스냅사진을{"\n"}손 안에서 쉽고 간편하게
@@ -90,7 +86,6 @@ export default function Home() {
             </WelcomeContainer>
 
             <InquiryForm />
-            <Footer />
         </>
     );
 }
@@ -207,7 +202,7 @@ const AppDescriptionWrapper = styled.div<{ $reverse?: boolean }>`
     gap: clamp(18px, 3vw, 48px);
 
     ${({ $reverse }) =>
-        $reverse &&  `grid-template-areas: "image text";
+        $reverse && `grid-template-areas: "image text";
     `};
 
     @media (max-width: 900px) {

@@ -1,6 +1,4 @@
 import styled from "styled-components";
-import Header from "@components/common/Header.tsx";
-import Footer from "@components/common/Footer.tsx";
 
 interface SubPageContainerProps {
     title: string;
@@ -13,12 +11,10 @@ export const SubPageContainer = ({
 }: SubPageContainerProps) => {
     return (
         <>
-            <Header />
             <StyledSubPageContainer>
                 <Title>{title}</Title>
                 {children}
             </StyledSubPageContainer>
-            <Footer />
         </>
     )
 }

@@ -1,20 +1,49 @@
 import { useState } from "react";
 import styled from "styled-components";
 import CheckIcon from "@assets/icons/check.svg";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
+import type { Address } from "react-daum-postcode";
+import { useDaumPostcodePopup } from "react-daum-postcode";
 import SuccessModal from "@components/Common/SuccessModal";
 
 
-export default function InquiryForm() {
+export default function EventInquiry() {
     const [name, setName] = useState<string>("");
     const [time, setTime] = useState<0 | 1 | null>(null);
     const [email, setEmail] = useState<string>("");
     const [contact, setContact] = useState<string>("");
-    const [message, setMessage] = useState<string>("");
+    const [eventDate, setEventDate] = useState<Date | null>(null);
+    const [eventLocation, setEventLocation] = useState<string>("");
+    const [purpose, setPurpose] = useState<string>("");
+    const [reference, setReference] = useState<string>("");
     const [isAgreed, setIsAgreed] = useState<boolean>(false);
     const [loading, setLoading] = useState<boolean>(false);
     const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
 
-    const valid = name !== "" && time !== null && email !== "" && contact !== "" && message !== "" && isAgreed;
+    const openPostcode = useDaumPostcodePopup();
+
+    const handlePostcodeComplete = (data: Address) => {
+        let fullAddress = data.address;
+        let extraAddress = "";
+
+        if (data.addressType === "R") {
+            if (data.bname !== "") {
+                extraAddress += data.bname;
+            }
+            if (data.buildingName !== "") {
+                extraAddress += extraAddress !== "" ? `, ${data.buildingName}` : data.buildingName;
+            }
+            fullAddress += extraAddress !== "" ? ` (${extraAddress})` : "";
+        }
+        setEventLocation(fullAddress);
+    };
+
+    const handlePostcodeClick = () => {
+        openPostcode({ onComplete: handlePostcodeComplete });
+    };
+
+    const valid = name !== "" && time !== null && email !== "" && contact !== "" && purpose !== "" && eventDate !== null && eventLocation !== "" && isAgreed;
 
     const handleSubmit = async () => {
         if (!valid || loading) return;
@@ -22,7 +51,7 @@ export default function InquiryForm() {
         try {
             setLoading(true);
 
-            const res = await fetch("/api/send-inquiry", {
+            const res = await fetch("/api/send-event-inquiry", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -32,7 +61,10 @@ export default function InquiryForm() {
                     time: time === 0 ? "오전" : "오후",
                     email,
                     contact,
-                    message,
+                    purpose,
+                    reference,
+                    eventDate: eventDate ? eventDate.toISOString() : "", // Convert Date to string for API
+                    eventLocation,
                 }),
             });
 
@@ -46,7 +78,10 @@ export default function InquiryForm() {
             setTime(null);
             setEmail("");
             setContact("");
-            setMessage("");
+            setContact("");
+            setPurpose("");
+            setEventDate(null);
+            setEventLocation("");
             setIsAgreed(false);
         } catch (error) {
             console.error(error);
@@ -59,8 +94,8 @@ export default function InquiryForm() {
     return (
         <InquiryFormContainer>
             <InquiryFormMultilineRow>
-                <InquiryFormTitle>스냅링크 제휴 문의</InquiryFormTitle>
-                <InquiryFormDescription>문의 내용을 남겨주시면 제휴 사업 담당자가 내용 확인 후 연락드립니다.</InquiryFormDescription>
+                <InquiryFormTitle>스냅링크 단체/행사 촬영 문의 </InquiryFormTitle>
+                <InquiryFormDescription>전문 촬영 작가가 필요한 순간, 언제 어디서나 스냅링크가 연결해 드리겠습니다.</InquiryFormDescription>
             </InquiryFormMultilineRow>
 
             <InquiryFormRow>
@@ -78,33 +113,31 @@ export default function InquiryForm() {
                 <InquiryFormInputWrapper>
                     <InquiryFormCaption>연락 가능한 시간을 선택해주세요*</InquiryFormCaption>
 
-                    <InquiryFormRadioWrapper>
-                        <InquiryFormRadioButtonWrapper>
-                            <InquiryFormRadioButton
-                                type="button"
-                                onClick={(e) => {
-                                    e.preventDefault();
-                                    setTime(0);
-                                }}
-                            >
-                                <InquiryFormRadioInput>{time === 0 && <InquiryFormRadioButtonDot />}</InquiryFormRadioInput>
-                                <InquiryFormRadioLabel>오전</InquiryFormRadioLabel>
-                            </InquiryFormRadioButton>
-                        </InquiryFormRadioButtonWrapper>
+                    <InquiryFormRadioButtonWrapper>
+                        <InquiryFormRadioButton
+                            type="button"
+                            onClick={(e) => {
+                                e.preventDefault();
+                                setTime(0);
+                            }}
+                        >
+                            <InquiryFormRadioInput>{time === 0 && <InquiryFormRadioButtonDot />}</InquiryFormRadioInput>
+                            <InquiryFormRadioLabel>오전 09:00 ~ 12:00</InquiryFormRadioLabel>
+                        </InquiryFormRadioButton>
+                    </InquiryFormRadioButtonWrapper>
 
-                        <InquiryFormRadioButtonWrapper>
-                            <InquiryFormRadioButton
-                                type="button"
-                                onClick={(e) => {
-                                    e.preventDefault();
-                                    setTime(1);
-                                }}
-                            >
-                                <InquiryFormRadioInput>{time === 1 && <InquiryFormRadioButtonDot />}</InquiryFormRadioInput>
-                                <InquiryFormRadioLabel>오후</InquiryFormRadioLabel>
-                            </InquiryFormRadioButton>
-                        </InquiryFormRadioButtonWrapper>
-                    </InquiryFormRadioWrapper>
+                    <InquiryFormRadioButtonWrapper>
+                        <InquiryFormRadioButton
+                            type="button"
+                            onClick={(e) => {
+                                e.preventDefault();
+                                setTime(1);
+                            }}
+                        >
+                            <InquiryFormRadioInput>{time === 1 && <InquiryFormRadioButtonDot />}</InquiryFormRadioInput>
+                            <InquiryFormRadioLabel>오후 13:00 ~ 18:00</InquiryFormRadioLabel>
+                        </InquiryFormRadioButton>
+                    </InquiryFormRadioButtonWrapper>
                 </InquiryFormInputWrapper>
             </InquiryFormRow>
 
@@ -132,13 +165,51 @@ export default function InquiryForm() {
                 </InquiryFormInputWrapper>
             </InquiryFormRow>
 
+            <InquiryFormRow>
+                <InquiryFormInputWrapper>
+                    <InquiryFormCaption>행사 일정을 입력해주세요*</InquiryFormCaption>
+                    <InquiryFormInputWrapper>
+                        {/* @ts-ignore */}
+                        <StyledDatePicker
+                            selected={eventDate}
+                            onChange={(date: any) => setEventDate(date)}
+                            dateFormat="yyyy.MM.dd"
+                            placeholderText="날짜 선택"
+                        />
+                    </InquiryFormInputWrapper>
+                </InquiryFormInputWrapper>
+
+                <InquiryFormInputWrapper>
+                    <InquiryFormCaption>행사 장소를 입력해주세요*</InquiryFormCaption>
+                    <InquiryFormInput
+                        type="text"
+                        name="eventLocation"
+                        placeholder="장소 검색"
+                        value={eventLocation}
+                        readOnly
+                        onClick={handlePostcodeClick}
+                        style={{ cursor: "pointer" }}
+                    />
+                </InquiryFormInputWrapper>
+            </InquiryFormRow>
+
             <InquiryFormMultilineRow>
-                <InquiryFormCaption>문의 내용을 입력해주세요*</InquiryFormCaption>
+                <InquiryFormCaption>촬영 목적을 입력해주세요*</InquiryFormCaption>
                 <InquiryFormMultilineInput
-                    placeholder="내용"
-                    name="message"
-                    value={message}
-                    onChange={(e) => setMessage(e.target.value)}
+                    placeholder={`촬영 목적 및 활용처를 남겨주세요. \n(내부 기록용, 홍보 마케팅용, 보도자료용 등)`}
+                    name="purpose"
+                    value={purpose}
+                    onChange={(e) => setPurpose(e.target.value)}
+                />
+            </InquiryFormMultilineRow>
+
+            <InquiryFormMultilineRow>
+                <InquiryFormCaption>레퍼런스 및 원하는 컨셉과 스타일을 입력해주세요</InquiryFormCaption>
+                <InquiryFormMultilineInput
+                    placeholder="밝고 화사한 톤, 인물 중심의 자연스러움 등 상세하고 참고할 만한 링크를 남겨주셔도 좋으니 자세하게 남겨주세요."
+                    name="reference"
+                    value={reference}
+                    onChange={(e) => setReference(e.target.value)}
                 />
             </InquiryFormMultilineRow>
 
@@ -172,11 +243,12 @@ export default function InquiryForm() {
                     {loading ? "전송 중..." : "제출하기"}
                 </InquiryFormSubmitButton>
             </InquiryFormSubmitButtonWrapper>
+
             <SuccessModal
                 isOpen={isModalOpen}
                 onClose={() => setIsModalOpen(false)}
-                title="제휴 문의가 접수 되었습니다."
-                content={`문의주셔서 감사합니다.\n내용 확인 후 담당자가 빠른 시일 내에 연락드리겠습니다.`}
+                title="문의가 접수 되었습니다."
+                content={`입력해주신 내용에 가장 적합한 전문 작가를 꼼꼼히 검토한 후\n영업일 기준 3일 이내에 담당자가 연락드립니다.`}
             />
         </InquiryFormContainer>
     );
@@ -275,14 +347,10 @@ const InquiryFormMultilineInput = styled.textarea`
     }
 `;
 
-const InquiryFormRadioWrapper = styled.div`
-    width: 100%;
-    display: flex;
-    gap: 14px;
-`;
 
 const InquiryFormRadioButtonWrapper = styled.div`
     width: auto;
+    margin-top: 12px;
 `;
 
 const InquiryFormRadioButton = styled.button`
@@ -318,12 +386,6 @@ const InquiryFormRadioButtonDot = styled.div`
     background-color: #00a980;
 `;
 
-const InquiryFormCheckboxRow = styled.div`
-    width: 100%;
-    display: flex;
-    margin-top: 18px;
-`;
-
 const InquiryFormCheckboxWrapper = styled.div`
     display: flex;
     align-items: center;
@@ -349,7 +411,6 @@ const InquiryFormCheckboxIcon = styled.img`
 const InquiryFormCheckboxLabel = styled.a`
     font-size: 12px;
     color: #000;
-    text-decoration: underline;
 `;
 
 const InquiryFormSubmitButtonWrapper = styled.div`
@@ -371,4 +432,19 @@ const InquiryFormSubmitButton = styled.button<{ $disabled: boolean }>`
     color: ${({ $disabled }) => ($disabled ? "#000" : "#fff")};
     border: none;
     cursor: ${({ $disabled }) => ($disabled ? "not-allowed" : "pointer")};
+`;
+
+const StyledDatePicker = styled(DatePicker)`
+    width: 100%;
+    height: 54px;
+    border-radius: 10px;
+    border: 1px solid #d0d0d0;
+    padding: 0 20px;
+    box-sizing: border-box;
+    font-size: 16px;
+    color: #000;
+
+    ::placeholder {
+        color: #2d2d2d;
+    }
 `;

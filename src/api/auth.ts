@@ -87,33 +87,6 @@ export interface SignUpFormData {
 }
 
 /**
- * 회원가입
- */
-export async function signUpApi(formData: SignUpFormData): Promise<LoginSuccessResponse> {
-    const response = await fetch(`${AUTH_BASE}/signup`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(formData),
-    });
-
-    if (!response.ok) {
-        throw new Error(`Failed to sign up: ${response.status}`);
-    }
-
-    const data = await response.json();
-
-    return {
-        status: 'LOGIN_SUCCESS',
-        userId: data.userId,
-        role: data.role,
-        tokens: {
-            accessToken: data.tokens.accessToken,
-            refreshToken: data.tokens.refreshToken,
-        },
-    };
-}
-
-/**
  * 로그아웃
  */
 export async function logoutApi(): Promise<void> {
