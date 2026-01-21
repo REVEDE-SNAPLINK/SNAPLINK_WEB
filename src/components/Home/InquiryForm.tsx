@@ -1,8 +1,7 @@
 import { useState } from "react";
 import styled from "styled-components";
 import CheckIcon from "@assets/icons/check.svg";
-import SuccessModal from "@components/Common/SuccessModal";
-
+import SuccessModal from "@components/common/SuccessModal";
 
 export default function InquiryForm() {
     const [name, setName] = useState<string>("");
@@ -316,12 +315,6 @@ const InquiryFormRadioButtonDot = styled.div`
     height: 15px;
     border-radius: 15px;
     background-color: #00a980;
-`;
-
-const InquiryFormCheckboxRow = styled.div`
-    width: 100%;
-    display: flex;
-    margin-top: 18px;
 `;
 
 const InquiryFormCheckboxWrapper = styled.div`
