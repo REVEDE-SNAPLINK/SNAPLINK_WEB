@@ -169,7 +169,7 @@ export default function EventInquiry() {
                 <InquiryFormInputWrapper>
                     <InquiryFormCaption>행사 일정을 입력해주세요*</InquiryFormCaption>
                     <InquiryFormInputWrapper>
-                        {/* @ts-ignore */}
+                        {/* @ts-expect-error: StyledDatePicker 타입 호환성 오류 해결 */}
                         <StyledDatePicker
                             selected={eventDate}
                             onChange={(date: any) => setEventDate(date)}
