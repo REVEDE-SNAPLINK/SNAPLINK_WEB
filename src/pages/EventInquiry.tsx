@@ -6,7 +6,9 @@ import "react-datepicker/dist/react-datepicker.css";
 import type { Address } from "react-daum-postcode";
 import { useDaumPostcodePopup } from "react-daum-postcode";
 import SuccessModal from "@components/common/SuccessModal";
-
+import BannerImage from "@assets/imgs/inquiry-banner.png"
+import BottomBannerLogo from "@assets/imgs/bottom-banner-logo.svg";
+import BottomBannerImage from "@assets/imgs/bottom-banner.jpg"
 
 export default function EventInquiry() {
     const [name, setName] = useState<string>("");
@@ -63,7 +65,7 @@ export default function EventInquiry() {
                     contact,
                     purpose,
                     reference,
-                    eventDate: eventDate ? eventDate.toISOString() : "", // Convert Date to string for API
+                    eventDate: eventDate ? eventDate.toISOString() : "",
                     eventLocation,
                 }),
             });
@@ -78,8 +80,8 @@ export default function EventInquiry() {
             setTime(null);
             setEmail("");
             setContact("");
-            setContact("");
             setPurpose("");
+            setReference("");
             setEventDate(null);
             setEventLocation("");
             setIsAgreed(false);
@@ -92,180 +94,252 @@ export default function EventInquiry() {
     };
 
     return (
-        <InquiryFormContainer>
-            <InquiryFormMultilineRow>
-                <InquiryFormTitle>스냅링크 단체/행사 촬영 문의 </InquiryFormTitle>
-                <InquiryFormDescription>전문 촬영 작가가 필요한 순간, 언제 어디서나 스냅링크가 연결해 드리겠습니다.</InquiryFormDescription>
-            </InquiryFormMultilineRow>
+        <>
+            <PageBanner>
+                <BannerOverlay />
+                <BannerContent>
+                    <BannerTitle>믿을 수 있는 든든한 파트너</BannerTitle>
+                    <BannerColorTitle>스냅링크</BannerColorTitle>
+                    <BannerDescription>스냅링크는 다양한 분야의 우수한 파트너들에게 촬영에 대한{'\n'}모든 관리를 대행하는 통합 솔루션을 지원하며 함께 성장합니다.</BannerDescription>
+                </BannerContent>
+            </PageBanner>
 
-            <InquiryFormRow>
-                <InquiryFormInputWrapper>
-                    <InquiryFormCaption>이름(기업명 또는 단체명)을 입력해주세요*</InquiryFormCaption>
-                    <InquiryFormInput
-                        type="text"
-                        name="name"
-                        placeholder="이름"
-                        value={name}
-                        onChange={(e) => setName(e.target.value)}
-                    />
-                </InquiryFormInputWrapper>
+            <InquiryFormContainer>
+                <InquiryFormTitleRow>
+                    <InquiryFormTitle>스냅링크 단체/행사 촬영 문의</InquiryFormTitle>
+                    <InquiryFormDescription>전문 촬영 작가가 필요한 순간, 언제 어디서나 스냅링크가 연결해 드리겠습니다.</InquiryFormDescription>
+                </InquiryFormTitleRow>
 
-                <InquiryFormInputWrapper>
-                    <InquiryFormCaption>연락 가능한 시간을 선택해주세요*</InquiryFormCaption>
+                <InquiryFormBackground>
+                    <InquiryFormRow>
+                        <InquiryFormInputWrapper>
+                            <InquiryFormCaption>이름(기업명 또는 단체명)을 입력해주세요*</InquiryFormCaption>
+                            <InquiryFormInput
+                                type="text"
+                                name="name"
+                                placeholder="이름"
+                                value={name}
+                                onChange={(e) => setName(e.target.value)}
+                            />
+                        </InquiryFormInputWrapper>
 
-                    <InquiryFormRadioButtonWrapper>
-                        <InquiryFormRadioButton
-                            type="button"
-                            onClick={(e) => {
-                                e.preventDefault();
-                                setTime(0);
-                            }}
-                        >
-                            <InquiryFormRadioInput>{time === 0 && <InquiryFormRadioButtonDot />}</InquiryFormRadioInput>
-                            <InquiryFormRadioLabel>오전 09:00 ~ 12:00</InquiryFormRadioLabel>
-                        </InquiryFormRadioButton>
-                    </InquiryFormRadioButtonWrapper>
+                        <InquiryFormInputWrapper>
+                            <InquiryFormCaption>연락 가능한 시간을 선택해주세요*</InquiryFormCaption>
 
-                    <InquiryFormRadioButtonWrapper>
-                        <InquiryFormRadioButton
-                            type="button"
-                            onClick={(e) => {
-                                e.preventDefault();
-                                setTime(1);
-                            }}
-                        >
-                            <InquiryFormRadioInput>{time === 1 && <InquiryFormRadioButtonDot />}</InquiryFormRadioInput>
-                            <InquiryFormRadioLabel>오후 13:00 ~ 18:00</InquiryFormRadioLabel>
-                        </InquiryFormRadioButton>
-                    </InquiryFormRadioButtonWrapper>
-                </InquiryFormInputWrapper>
-            </InquiryFormRow>
+                            <InquiryFormRadioButtonWrapper>
+                                <InquiryFormRadioButton
+                                    type="button"
+                                    onClick={(e) => {
+                                        e.preventDefault();
+                                        setTime(0);
+                                    }}
+                                >
+                                    <InquiryFormRadioInput>{time === 0 && <InquiryFormRadioButtonDot />}</InquiryFormRadioInput>
+                                    <InquiryFormRadioLabel>오전 09:00 ~ 12:00</InquiryFormRadioLabel>
+                                </InquiryFormRadioButton>
+                            </InquiryFormRadioButtonWrapper>
 
-            <InquiryFormRow>
-                <InquiryFormInputWrapper>
-                    <InquiryFormCaption>이메일을 입력해주세요*</InquiryFormCaption>
-                    <InquiryFormInput
-                        type="text"
-                        name="email"
-                        placeholder="이메일"
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
-                    />
-                </InquiryFormInputWrapper>
+                            <InquiryFormRadioButtonWrapper>
+                                <InquiryFormRadioButton
+                                    type="button"
+                                    onClick={(e) => {
+                                        e.preventDefault();
+                                        setTime(1);
+                                    }}
+                                >
+                                    <InquiryFormRadioInput>{time === 1 && <InquiryFormRadioButtonDot />}</InquiryFormRadioInput>
+                                    <InquiryFormRadioLabel>오후 13:00 ~ 18:00</InquiryFormRadioLabel>
+                                </InquiryFormRadioButton>
+                            </InquiryFormRadioButtonWrapper>
+                        </InquiryFormInputWrapper>
+                    </InquiryFormRow>
 
-                <InquiryFormInputWrapper>
-                    <InquiryFormCaption>연락처를 입력해주세요*</InquiryFormCaption>
-                    <InquiryFormInput
-                        type="text"
-                        name="contact"
-                        placeholder="연락처"
-                        value={contact}
-                        onChange={(e) => setContact(e.target.value)}
-                    />
-                </InquiryFormInputWrapper>
-            </InquiryFormRow>
+                    <InquiryFormRow>
+                        <InquiryFormInputWrapper>
+                            <InquiryFormCaption>이메일을 입력해주세요*</InquiryFormCaption>
+                            <InquiryFormInput
+                                type="text"
+                                name="email"
+                                placeholder="이메일"
+                                value={email}
+                                onChange={(e) => setEmail(e.target.value)}
+                            />
+                        </InquiryFormInputWrapper>
 
-            <InquiryFormRow>
-                <InquiryFormInputWrapper>
-                    <InquiryFormCaption>행사 일정을 입력해주세요*</InquiryFormCaption>
-                    <InquiryFormInputWrapper>
-                        {/* @ts-expect-error: StyledDatePicker 타입 호환성 오류 해결 */}
-                        <StyledDatePicker
-                            selected={eventDate}
-                            onChange={(date: any) => setEventDate(date)}
-                            dateFormat="yyyy.MM.dd"
-                            placeholderText="날짜 선택"
+                        <InquiryFormInputWrapper>
+                            <InquiryFormCaption>연락처를 입력해주세요*</InquiryFormCaption>
+                            <InquiryFormInput
+                                type="text"
+                                name="contact"
+                                placeholder="연락처"
+                                value={contact}
+                                onChange={(e) => setContact(e.target.value)}
+                            />
+                        </InquiryFormInputWrapper>
+                    </InquiryFormRow>
+
+                    <InquiryFormRow>
+                        <InquiryFormInputWrapper>
+                            <InquiryFormCaption>행사 일정을 입력해주세요*</InquiryFormCaption>
+                            <InquiryFormInputWrapper>
+                                {/* @ts-expect-error: StyledDatePicker 타입 호환성 오류 해결 */}
+                                <StyledDatePicker
+                                    selected={eventDate}
+                                    onChange={(date: Date | null) => setEventDate(date)}
+                                    dateFormat="yyyy.MM.dd"
+                                    placeholderText="날짜 선택"
+                                />
+                            </InquiryFormInputWrapper>
+                        </InquiryFormInputWrapper>
+
+                        <InquiryFormInputWrapper>
+                            <InquiryFormCaption>행사 장소를 입력해주세요*</InquiryFormCaption>
+                            <InquiryFormInput
+                                type="text"
+                                name="eventLocation"
+                                placeholder="장소 검색"
+                                value={eventLocation}
+                                readOnly
+                                onClick={handlePostcodeClick}
+                                style={{ cursor: "pointer" }}
+                            />
+                        </InquiryFormInputWrapper>
+                    </InquiryFormRow>
+
+                    <InquiryFormMultilineRow>
+                        <InquiryFormCaption>촬영 목적을 입력해주세요*</InquiryFormCaption>
+                        <InquiryFormMultilineInput
+                            placeholder={`촬영 목적 및 활용처를 남겨주세요. \n(내부 기록용, 홍보 마케팅용, 보도자료용 등)`}
+                            name="purpose"
+                            value={purpose}
+                            onChange={(e) => setPurpose(e.target.value)}
                         />
-                    </InquiryFormInputWrapper>
-                </InquiryFormInputWrapper>
+                    </InquiryFormMultilineRow>
 
-                <InquiryFormInputWrapper>
-                    <InquiryFormCaption>행사 장소를 입력해주세요*</InquiryFormCaption>
-                    <InquiryFormInput
-                        type="text"
-                        name="eventLocation"
-                        placeholder="장소 검색"
-                        value={eventLocation}
-                        readOnly
-                        onClick={handlePostcodeClick}
-                        style={{ cursor: "pointer" }}
-                    />
-                </InquiryFormInputWrapper>
-            </InquiryFormRow>
+                    <InquiryFormMultilineRow>
+                        <InquiryFormCaption>레퍼런스 및 원하는 컨셉과 스타일을 입력해주세요</InquiryFormCaption>
+                        <InquiryFormMultilineInput
+                            placeholder="밝고 화사한 톤, 인물 중심의 자연스러움 등 상세하고 참고할 만한 링크를 남겨주셔도 좋으니 자세하게 남겨주세요."
+                            name="reference"
+                            value={reference}
+                            onChange={(e) => setReference(e.target.value)}
+                        />
+                    </InquiryFormMultilineRow>
 
-            <InquiryFormMultilineRow>
-                <InquiryFormCaption>촬영 목적을 입력해주세요*</InquiryFormCaption>
-                <InquiryFormMultilineInput
-                    placeholder={`촬영 목적 및 활용처를 남겨주세요. \n(내부 기록용, 홍보 마케팅용, 보도자료용 등)`}
-                    name="purpose"
-                    value={purpose}
-                    onChange={(e) => setPurpose(e.target.value)}
+                    <InquiryFormMultilineRow>
+                        <InquiryFormCheckboxWrapper>
+                            <InquiryFormCheckbox
+                                type="button"
+                                $isChecked={isAgreed}
+                                onClick={(e) => {
+                                    e.preventDefault();
+                                    setIsAgreed(!isAgreed);
+                                }}
+                            >
+                                <InquiryFormCheckboxIcon src={CheckIcon} alt="check" />
+                            </InquiryFormCheckbox>
+
+                            <InquiryFormCheckboxLabel href="/privacy">개인정보 수집 및 이용에 동의합니다.</InquiryFormCheckboxLabel>
+                        </InquiryFormCheckboxWrapper>
+                    </InquiryFormMultilineRow>
+
+                    <InquiryFormSubmitButtonWrapper>
+                        <InquiryFormSubmitButton
+                            $disabled={!valid || loading}
+                            disabled={!valid || loading}
+                            type="button"
+                            onClick={(e) => {
+                                e.preventDefault();
+                                handleSubmit();
+                            }}
+                        >
+                            {loading ? "전송 중..." : "제출하기"}
+                        </InquiryFormSubmitButton>
+                    </InquiryFormSubmitButtonWrapper>
+                </InquiryFormBackground>
+
+                <InquiryFormBottomBanner>
+                    <InquiryFormBottomBannerOverlay />
+                    <InquiryFormBottomBannerContentWrapper>
+                        <div>
+                            <InquiryFormBottomBannerCaption>
+                                스냅사진을 쉽고 간편하게
+                            </InquiryFormBottomBannerCaption>
+                            <InquiryFormBottomBannerTitle src={BottomBannerLogo} />
+                        </div>
+                        <InquiryFormBottomBannerButton>
+                            <InquiryFormBottomBannerButtonText>
+                                지금 경험하러 가기
+                            </InquiryFormBottomBannerButtonText>
+                        </InquiryFormBottomBannerButton>
+                    </InquiryFormBottomBannerContentWrapper>
+                </InquiryFormBottomBanner>
+
+                <SuccessModal
+                    isOpen={isModalOpen}
+                    onClose={() => setIsModalOpen(false)}
+                    title="문의가 접수 되었습니다."
+                    content={`입력해주신 내용에 가장 적합한 전문 작가를 꼼꼼히 검토한 후\n영업일 기준 3일 이내에 담당자가 연락드립니다.`}
                 />
-            </InquiryFormMultilineRow>
-
-            <InquiryFormMultilineRow>
-                <InquiryFormCaption>레퍼런스 및 원하는 컨셉과 스타일을 입력해주세요</InquiryFormCaption>
-                <InquiryFormMultilineInput
-                    placeholder="밝고 화사한 톤, 인물 중심의 자연스러움 등 상세하고 참고할 만한 링크를 남겨주셔도 좋으니 자세하게 남겨주세요."
-                    name="reference"
-                    value={reference}
-                    onChange={(e) => setReference(e.target.value)}
-                />
-            </InquiryFormMultilineRow>
-
-            <InquiryFormMultilineRow>
-                <InquiryFormCheckboxWrapper>
-                    <InquiryFormCheckbox
-                        type="button"
-                        $isChecked={isAgreed}
-                        onClick={(e) => {
-                            e.preventDefault();
-                            setIsAgreed(!isAgreed);
-                        }}
-                    >
-                        <InquiryFormCheckboxIcon src={CheckIcon} alt="check" />
-                    </InquiryFormCheckbox>
-
-                    <InquiryFormCheckboxLabel href="/privacy">개인정보 수집 및 이용에 동의합니다.</InquiryFormCheckboxLabel>
-                </InquiryFormCheckboxWrapper>
-            </InquiryFormMultilineRow>
-
-            <InquiryFormSubmitButtonWrapper>
-                <InquiryFormSubmitButton
-                    $disabled={!valid || loading}
-                    disabled={!valid || loading}
-                    type="button"
-                    onClick={(e) => {
-                        e.preventDefault();
-                        handleSubmit();
-                    }}
-                >
-                    {loading ? "전송 중..." : "제출하기"}
-                </InquiryFormSubmitButton>
-            </InquiryFormSubmitButtonWrapper>
-
-            <SuccessModal
-                isOpen={isModalOpen}
-                onClose={() => setIsModalOpen(false)}
-                title="문의가 접수 되었습니다."
-                content={`입력해주신 내용에 가장 적합한 전문 작가를 꼼꼼히 검토한 후\n영업일 기준 3일 이내에 담당자가 연락드립니다.`}
-            />
-        </InquiryFormContainer>
+            </InquiryFormContainer>
+        </>
     );
 }
 
-const InquiryFormContainer = styled.form`
-    padding-top: clamp(48px, 6vw, 65px);
-    padding-bottom: clamp(72px, 8vw, 114px);
-
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-
+const PageBanner = styled.div`
     width: 100%;
+    height: 620px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    background: url(${BannerImage}) no-repeat center / cover;
+
+    @media (max-width: 600px) {
+        height: 400px;
+    }
+`;
+
+const BannerOverlay = styled.div`
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.2);
+    z-index: 1;
+`;
+
+const BannerContent = styled.div`
+    position: relative;
+    z-index: 2;
     padding-left: clamp(16px, 4vw, 40px);
     padding-right: clamp(16px, 4vw, 40px);
-    box-sizing: border-box;
+    width: 100%;
+    max-width: 902px;
+`;
+
+const BannerTitle = styled.h1`
+    font-size: clamp(28px, 3.4vw, 48px);
+    font-weight: bold;
+    color: #fff;
+    margin-bottom: 10px;
+`;
+
+const BannerColorTitle = styled(BannerTitle)`
+    color: #00A980;
+    margin-bottom: clamp(20px, 3vw, 50px);
+`;
+
+const BannerDescription = styled.p`
+    font-size: clamp(16px, 1.8vw, 24px);
+    color: #fff;
+    font-weight: 400;
+    line-height: 40px;
+    white-space: pre-line;
+`;
+
+const InquiryFormTitleRow = styled.div`
+    width: 100%;
+    max-width: 902px;
+    margin-bottom: clamp(40px, 6vw, 80px);
 `;
 
 const InquiryFormTitle = styled.h2`
@@ -278,7 +352,31 @@ const InquiryFormTitle = styled.h2`
 const InquiryFormDescription = styled.p`
     font-size: clamp(16px, 1.8vw, 26px);
     color: #000;
-    margin-bottom: clamp(40px, 6vw, 80px);
+`;
+
+const InquiryFormContainer = styled.form`
+    padding-top: clamp(48px, 6vw, 114px);
+    padding-bottom: clamp(72px, 8vw, 114px);
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    width: 100%;
+    padding-left: clamp(16px, 4vw, 40px);
+    padding-right: clamp(16px, 4vw, 40px);
+    box-sizing: border-box;
+`;
+
+const InquiryFormBackground = styled.div`
+    background-color: #FAFAFA;
+    padding-top: clamp(48px, 8vw, 90px);
+    padding-left: clamp(20px, 6vw, 80px);
+    padding-right: clamp(20px, 6vw, 80px);
+    box-sizing: border-box;
+    max-width: 902px;
+    width: 100%;
+    padding-bottom: clamp(48px, 8vw, 114px);
 `;
 
 const InquiryFormRow = styled.div`
@@ -306,16 +404,9 @@ const InquiryFormInputWrapper = styled.div`
     .react-datepicker-wrapper {
         width: 100%;
     }
-    
+
     .react-datepicker__input-container {
         width: 100%;
-    }
-
-    /* 반응형을 위해 데스크탑에서 최대 너비를 제한하고 싶다면 아래 추가 */
-    @media (min-width: 820px) {
-        .react-datepicker-wrapper {
-            max-width: 385px;
-        }
     }
 `;
 
@@ -340,10 +431,6 @@ const InquiryFormInput = styled.input`
     font-size: 16px;
     color: #000;
 
-    @media (min-width: 820px) {
-        max-width: 385px;
-    }
-
     ::placeholder {
         color: #2d2d2d;
     }
@@ -359,6 +446,7 @@ const InquiryFormMultilineInput = styled.textarea`
     box-sizing: border-box;
     font-size: 16px;
     color: #000;
+    line-height: 24px;
 
     ::placeholder {
         color: #2d2d2d;
@@ -429,6 +517,7 @@ const InquiryFormCheckboxIcon = styled.img`
 const InquiryFormCheckboxLabel = styled.a`
     font-size: 12px;
     color: #000;
+    text-decoration: underline;
 `;
 
 const InquiryFormSubmitButtonWrapper = styled.div`
@@ -462,11 +551,76 @@ const StyledDatePicker = styled(DatePicker)`
     color: #000;
     width: 100%;
 
-    @media (min-width: 820px) {
-        width: 385px;
-    }
-
     ::placeholder {
         color: #2d2d2d;
     }
 `;
+
+const InquiryFormBottomBanner = styled.div`
+    width: 100%;
+    height: 248px;
+    border-radius: 20px;
+    overflow: hidden;
+    background: url(${BottomBannerImage}) no-repeat center 10% / cover;
+    max-width: 902px;
+    margin-top: 40px;
+    position: relative;
+`
+
+const InquiryFormBottomBannerOverlay = styled.div`
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.2);
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    z-index: 2;
+`
+
+const InquiryFormBottomBannerContentWrapper = styled.div`
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-left: 71px;
+    padding-right: 68px;
+    box-sizing: border-box;
+    position: absolute;
+    z-index: 3;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+`
+
+const InquiryFormBottomBannerCaption = styled.p`
+    color: #FFF;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 400;
+    margin-bottom: 10px;
+`
+
+const InquiryFormBottomBannerTitle = styled.img`
+    height: 55px;
+`
+
+const InquiryFormBottomBannerButton = styled.a`
+    width: 178px;
+    height: 32px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 20px;
+    background: rgba(45, 45, 45, 0.90);
+    padding: 20px 30px;
+`
+
+const InquiryFormBottomBannerButtonText = styled.p`
+    color: #FFF;
+    font-size: 24px;
+    font-weight: 600;
+`

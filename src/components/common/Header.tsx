@@ -1,9 +1,11 @@
 import { useEffect, useState } from "react";
+import { useLocation } from "react-router-dom";
 import styled from "styled-components";
 import logo from "@assets/icons/logo.svg";
 
 export default function Header() {
     const [open, setOpen] = useState(false);
+    const location = useLocation();
 
     useEffect(() => {
         document.body.style.overflow = open ? "hidden" : "";
@@ -11,6 +13,8 @@ export default function Header() {
             document.body.style.overflow = "";
         };
     }, [open]);
+
+    const isActive = (path: string) => location.pathname === path;
 
     return (
         <>
@@ -21,10 +25,12 @@ export default function Header() {
 
                 {/* Desktop Nav */}
                 <Nav>
-                    <NavLink href="/notice">공지사항</NavLink>
-                    <NavLink href="/faq">자주 묻는 질문</NavLink>
-                    <NavLink href="/event-inquiry">행사 촬영 문의</NavLink>
-                    <NavLink href="http://pf.kakao.com/_KasSn">고객센터</NavLink>
+                    <NavLink href="/notice" $active={isActive("/notice")}>공지사항</NavLink>
+                    <NavLink href="/service" $active={isActive("/service")}>서비스</NavLink>
+                    <NavLink href="/faq" $active={isActive("/faq")}>자주 묻는 질문</NavLink>
+                    <NavLink href="/partnership-inquiry" $active={isActive("/partnership-inquiry")}>제휴 문의</NavLink>
+                    <NavLink href="/event-inquiry" $active={isActive("/event-inquiry")}>행사 촬영 문의</NavLink>
+                    <NavLink href="http://pf.kakao.com/_KasSn" $active={false}>고객센터</NavLink>
                 </Nav>
 
                 {/* Mobile Hamburger */}
@@ -42,16 +48,22 @@ export default function Header() {
             {/* Slide Menu */}
             <SideMenu $open={open}>
                 <SideNav>
-                    <SideNavLink href="/notice" onClick={() => setOpen(false)}>
+                    <SideNavLink href="/notice" $active={isActive("/notice")} onClick={() => setOpen(false)}>
                         공지사항
                     </SideNavLink>
-                    <SideNavLink href="/faq" onClick={() => setOpen(false)}>
+                    <SideNavLink href="/service" $active={isActive("/service")} onClick={() => setOpen(false)}>
+                        서비스
+                    </SideNavLink>
+                    <SideNavLink href="/faq" $active={isActive("/faq")} onClick={() => setOpen(false)}>
                         자주 묻는 질문
                     </SideNavLink>
-                    <SideNavLink href="/event-inquiry" onClick={() => setOpen(false)}>
+                    <SideNavLink href="/partnership-inquiry" $active={isActive("/partnership-inquiry")} onClick={() => setOpen(false)}>
+                        제휴 문의
+                    </SideNavLink>
+                    <SideNavLink href="/event-inquiry" $active={isActive("/event-inquiry")} onClick={() => setOpen(false)}>
                         행사 촬영 문의
                     </SideNavLink>
-                    <SideNavLink href="http://pf.kakao.com/_KasSn" onClick={() => setOpen(false)}>
+                    <SideNavLink href="http://pf.kakao.com/_KasSn" $active={false} onClick={() => setOpen(false)}>
                         고객센터
                     </SideNavLink>
                 </SideNav>
@@ -97,18 +109,19 @@ const Nav = styled.nav`
     display: flex;
     gap: 28px;
 
-    @media (max-width: 900px) {
+    @media (max-width: 1100px) {
         display: none;
     }
 `;
 
-const NavLink = styled.a`
+const NavLink = styled.a<{ $active: boolean }>`
     font-size: 18px;
-    color: #000;
+    color: ${({ $active }) => ($active ? "#00A980" : "#000")};
     text-decoration: none;
+    font-weight: ${({ $active }) => ($active ? "600" : "400")};
 
     &:hover {
-        text-decoration: underline;
+        color: #00A980;
     }
 `;
 
@@ -117,7 +130,7 @@ const NavLink = styled.a`
 const HamburgerButton = styled.button`
     display: none;
 
-    @media (max-width: 900px) {
+    @media (max-width: 1100px) {
         display: flex;
         align-items: center;
         justify-content: center;
@@ -171,7 +184,7 @@ const Overlay = styled.div<{ $open: boolean }>`
     transition: opacity 200ms ease;
     z-index: 60;
 
-    @media (min-width: 901px) {
+    @media (min-width: 1101px) {
         display: none;
     }
 `;
@@ -190,7 +203,7 @@ const SideMenu = styled.aside<{ $open: boolean }>`
 
     padding: 120px 32px 32px;
 
-    @media (min-width: 901px) {
+    @media (min-width: 1101px) {
         display: none;
     }
 `;
@@ -201,10 +214,10 @@ const SideNav = styled.nav`
     gap: 32px;
 `;
 
-const SideNavLink = styled.a`
+const SideNavLink = styled.a<{ $active: boolean }>`
     font-size: 22px;
-    font-weight: 600;
-    color: #000;
+    font-weight: ${({ $active }) => ($active ? "700" : "600")};
+    color: ${({ $active }) => ($active ? "#00A980" : "#000")};
     text-decoration: none;
 
     /* 담백하게 */

@@ -4,7 +4,6 @@ import {SubPageContainer} from "@components/common/Container.tsx";
 export default function Notice() {
     return (
         <>
-
             <SubPageContainer title="공지사항">
                 <NoticeItem>
                     <NoticeItemTitle>개인정보 처리 방침 약관 안내</NoticeItemTitle>

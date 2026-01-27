@@ -6,7 +6,6 @@ import Screenshot1Image from "@assets/imgs/screenshot1.png";
 import Screenshot2Image from "@assets/imgs/screenshot2.png";
 import Screenshot3Image from "@assets/imgs/screenshot3.png";
 import Screenshot4Image from "@assets/imgs/screenshot4.png";
-import InquiryForm from "@components/Home/InquiryForm.tsx";
 
 export default function Home() {
     return (
@@ -18,7 +17,7 @@ export default function Home() {
 
                 <DownloadLinkContainer>
                     <DownloadLinkWrapper>
-                        <GooglePlayDownloadLink href="/">
+                        <GooglePlayDownloadLink href="https://play.google.com/store/apps/details?id=com.revede.snaplink&pcampaignid=web_share">
                             <DownloadLinkImage src={GooglePlayIcon} alt="GooglePlay" />
                         </GooglePlayDownloadLink>
                         <AppStoreDownloadLink href="/">
@@ -84,8 +83,6 @@ export default function Home() {
                 </WelcomeTitle>
                 <WelcomeImage src={Screenshot4Image} />
             </WelcomeContainer>
-
-            <InquiryForm />
         </>
     );
 }

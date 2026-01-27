@@ -14,6 +14,8 @@ import KakaoCallback from "@pages/auth/KakaoCallback";
 import Withdraw from "@pages/auth/Withdraw";
 import CustomerService from "@pages/CustomerService";
 import EventInquiry from "@pages/EventInquiry";
+import PartnershipInquiry from "@pages/PartnershipInquiry";
+import Service from "@pages/Service";
 
 function App() {
     return (
@@ -32,6 +34,8 @@ function App() {
                 <Route path="/auth/kakao/callback" element={<KakaoCallback />} />
                 <Route path="/withdraw" element={<Withdraw />} />
                 <Route path="/customer-service" element={<CustomerService />} />
+                <Route path="/service" element={<Service />} />
+                <Route path="/partnership-inquiry" element={<PartnershipInquiry />} />
                 <Route path="/event-inquiry" element={<EventInquiry />} />
             </Routes>
             <Footer />
