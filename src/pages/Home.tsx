@@ -20,7 +20,7 @@ export default function Home() {
                         <GooglePlayDownloadLink href="https://play.google.com/store/apps/details?id=com.revede.snaplink&pcampaignid=web_share">
                             <DownloadLinkImage src={GooglePlayIcon} alt="GooglePlay" />
                         </GooglePlayDownloadLink>
-                        <AppStoreDownloadLink href="/">
+                        <AppStoreDownloadLink href="https://apps.apple.com/app/id6756947156">
                             <DownloadLinkImage src={AppStoreIcon} alt="AppStore" />
                         </AppStoreDownloadLink>
                     </DownloadLinkWrapper>
