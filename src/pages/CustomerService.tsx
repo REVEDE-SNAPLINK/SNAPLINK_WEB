@@ -21,7 +21,7 @@ export default function CustomerService() {
     }, [bootstrapped]);
 
     const handleLogin = () => {
-        navigate("/auth/kakao");
+        navigate("/auth/login");
     };
 
     const handleLogout = async () => {

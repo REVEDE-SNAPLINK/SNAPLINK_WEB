@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import styled from "styled-components";
 import { useAuthStore } from "@/store/authStore";
+import SignupRequired from "@components/auth/SignupRequired";
 
 export default function KakaoCallback() {
     const [searchParams] = useSearchParams();
@@ -54,13 +55,6 @@ export default function KakaoCallback() {
 
                 if (signInResult === "SIGNUP_REQUIRED") {
                     setStatus("needs_signup");
-                    setMessage("회원가입이 필요합니다. 앱에서 회원가입을 진행해주세요.");
-                    
-                    // 회원가입 필요 시 앱으로 리다이렉트 또는 안내 페이지로
-                    setTimeout(() => {
-                        alert("회원가입이 필요합니다. 앱에서 회원가입을 진행해주세요.");
-                        window.location.href = "/";
-                    }, 3000);
                 } else {
                     setStatus("success");
                     setMessage("로그인 성공! 잠시 후 이동합니다...");
@@ -78,7 +72,7 @@ export default function KakaoCallback() {
         };
 
         handleLogin();
-    }, [searchParams, navigate, signInWithProviderToken]);
+    }, [searchParams, signInWithProviderToken]);
 
     return (
         <>
@@ -96,15 +90,7 @@ export default function KakaoCallback() {
                             <Message $success>{message}</Message>
                         </>
                     )}
-                    {status === "needs_signup" && (
-                        <>
-                            <WarningIcon>⚠</WarningIcon>
-                            <Message $warning>{message}</Message>
-                            <InfoBox>
-                                앱에서 회원가입을 완료한 후 다시 로그인해주세요.
-                            </InfoBox>
-                        </>
-                    )}
+                    {status === "needs_signup" && <SignupRequired />}
                     {status === "error" && (
                         <>
                             <ErrorIcon>✕</ErrorIcon>
@@ -183,36 +169,12 @@ const ErrorIcon = styled.div`
     margin-bottom: 24px;
 `;
 
-const WarningIcon = styled.div`
-    width: 64px;
-    height: 64px;
-    border-radius: 50%;
-    background-color: #ff9800;
-    color: #fff;
-    font-size: 36px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-bottom: 24px;
-`;
-
-const Message = styled.p<{ $success?: boolean; $error?: boolean; $warning?: boolean }>`
+const Message = styled.p<{ $success?: boolean; $error?: boolean }>`
     font-size: clamp(16px, 2vw, 20px);
-    color: ${({ $success, $error, $warning }) =>
-        $success ? "#00a980" : $error ? "#ff4444" : $warning ? "#ff9800" : "#666"};
+    color: ${({ $success, $error }) =>
+        $success ? "#00a980" : $error ? "#ff4444" : "#666"};
     line-height: 1.6;
     margin-bottom: 24px;
-`;
-
-const InfoBox = styled.div`
-    padding: 16px;
-    background-color: #fff4e6;
-    border: 1px solid #ffd700;
-    border-radius: 10px;
-    color: #666;
-    font-size: 14px;
-    line-height: 1.6;
-    margin-top: 16px;
 `;
 
 const RetryButton = styled.button`

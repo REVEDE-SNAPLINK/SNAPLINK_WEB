@@ -4,58 +4,9 @@ import styled from "styled-components";
 export default function Login() {
     const [loadingProvider, setLoadingProvider] = useState<"kakao" | "naver" | "apple" | null>(null);
 
-    const handleKakaoLogin = () => {
-        setLoadingProvider("kakao");
-
-        const redirectUri = `${window.location.origin}/auth/kakao/callback`;
-        const restApiKey = import.meta.env.VITE_KAKAO_REST_API_KEY;
-
-        if (!restApiKey) {
-            alert("카카오 API 키가 설정되지 않았습니다.");
-            setLoadingProvider(null);
-            return;
-        }
-
-        window.location.href = `https://kauth.kakao.com/oauth/authorize?client_id=${restApiKey}&redirect_uri=${encodeURIComponent(redirectUri)}&response_type=code`;
-    };
-
-    const handleNaverLogin = () => {
-        setLoadingProvider("naver");
-
-        const redirectUri = `${window.location.origin}/auth/naver/callback`;
-        const clientId = import.meta.env.VITE_NAVER_CLIENT_ID;
-
-        if (!clientId) {
-            alert("네이버 클라이언트 ID가 설정되지 않았습니다.");
-            setLoadingProvider(null);
-            return;
-        }
-
-        const state = Math.random().toString(36).substring(2);
-        window.location.href = `https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=${clientId}&redirect_uri=${encodeURIComponent(redirectUri)}&state=${state}`;
-    };
-
-    const handleAppleLogin = () => {
-        setLoadingProvider("apple");
-
-        const redirectUri = `${window.location.origin}/api/auth/apple/callback`;
-        const clientId = import.meta.env.VITE_APPLE_CLIENT_ID;
-
-        if (!clientId) {
-            alert("Apple 클라이언트 ID가 설정되지 않았습니다.");
-            setLoadingProvider(null);
-            return;
-        }
-
-        const params = new URLSearchParams({
-            client_id: clientId,
-            redirect_uri: redirectUri,
-            response_type: "code id_token",
-            response_mode: "form_post",
-            scope: "name email",
-        });
-
-        window.location.href = `https://appleid.apple.com/auth/authorize?${params.toString()}`;
+    const startOAuth = (provider: "kakao" | "naver" | "apple") => {
+        setLoadingProvider(provider);
+        window.location.href = `/api/auth/${provider}/start`;
     };
 
     return (
@@ -69,21 +20,21 @@ export default function Login() {
 
                 <ButtonStack>
                     <KakaoButton
-                        onClick={handleKakaoLogin}
+                        onClick={() => startOAuth("kakao")}
                         disabled={loadingProvider !== null}
                     >
                         {loadingProvider === "kakao" ? "연결 중..." : "카카오로 로그인"}
                     </KakaoButton>
 
                     <NaverButton
-                        onClick={handleNaverLogin}
+                        onClick={() => startOAuth("naver")}
                         disabled={loadingProvider !== null}
                     >
                         {loadingProvider === "naver" ? "연결 중..." : "네이버로 로그인"}
                     </NaverButton>
 
                     <AppleButton
-                        onClick={handleAppleLogin}
+                        onClick={() => startOAuth("apple")}
                         disabled={loadingProvider !== null}
                     >
                         {loadingProvider === "apple" ? "연결 중..." : " Apple로 로그인"}

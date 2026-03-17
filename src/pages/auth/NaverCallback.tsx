@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import styled from "styled-components";
 import { useAuthStore } from "@/store/authStore";
+import SignupRequired from "@components/auth/SignupRequired";
 
 export default function NaverCallback() {
     const [searchParams] = useSearchParams();
@@ -50,11 +51,6 @@ export default function NaverCallback() {
 
                 if (signInResult === "SIGNUP_REQUIRED") {
                     setStatus("needs_signup");
-                    setMessage("회원가입이 필요합니다. 앱에서 회원가입을 진행해주세요.");
-                    setTimeout(() => {
-                        alert("회원가입이 필요합니다. 앱에서 회원가입을 진행해주세요.");
-                        window.location.href = "/";
-                    }, 3000);
                 } else {
                     setStatus("success");
                     setMessage("로그인 성공! 잠시 후 이동합니다...");
@@ -70,7 +66,7 @@ export default function NaverCallback() {
         };
 
         handleLogin();
-    }, [searchParams, navigate, signInWithProviderToken]);
+    }, [searchParams, signInWithProviderToken]);
 
     return (
         <Container>
@@ -87,13 +83,7 @@ export default function NaverCallback() {
                         <Message $success>{message}</Message>
                     </>
                 )}
-                {status === "needs_signup" && (
-                    <>
-                        <WarningIcon>⚠</WarningIcon>
-                        <Message $warning>{message}</Message>
-                        <InfoBox>앱에서 회원가입을 완료한 후 다시 로그인해주세요.</InfoBox>
-                    </>
-                )}
+                {status === "needs_signup" && <SignupRequired />}
                 {status === "error" && (
                     <>
                         <ErrorIcon>✕</ErrorIcon>
@@ -141,10 +131,11 @@ const LoadingSpinner = styled.div`
     }
 `;
 
-const IconBase = styled.div`
+const SuccessIcon = styled.div`
     width: 64px;
     height: 64px;
     border-radius: 50%;
+    background-color: #00a980;
     color: #fff;
     font-size: 36px;
     display: flex;
@@ -153,27 +144,25 @@ const IconBase = styled.div`
     margin-bottom: 24px;
 `;
 
-const SuccessIcon = styled(IconBase)`background-color: #00a980;`;
-const ErrorIcon = styled(IconBase)`background-color: #ff4444;`;
-const WarningIcon = styled(IconBase)`background-color: #ff9800;`;
-
-const Message = styled.p<{ $success?: boolean; $error?: boolean; $warning?: boolean }>`
-    font-size: clamp(16px, 2vw, 20px);
-    color: ${({ $success, $error, $warning }) =>
-        $success ? "#00a980" : $error ? "#ff4444" : $warning ? "#ff9800" : "#666"};
-    line-height: 1.6;
+const ErrorIcon = styled.div`
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    background-color: #ff4444;
+    color: #fff;
+    font-size: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     margin-bottom: 24px;
 `;
 
-const InfoBox = styled.div`
-    padding: 16px;
-    background-color: #fff4e6;
-    border: 1px solid #ffd700;
-    border-radius: 10px;
-    color: #666;
-    font-size: 14px;
+const Message = styled.p<{ $success?: boolean; $error?: boolean }>`
+    font-size: clamp(16px, 2vw, 20px);
+    color: ${({ $success, $error }) =>
+        $success ? "#00a980" : $error ? "#ff4444" : "#666"};
     line-height: 1.6;
-    margin-top: 16px;
+    margin-bottom: 24px;
 `;
 
 const RetryButton = styled.button`
