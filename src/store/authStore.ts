@@ -27,7 +27,7 @@ type AuthState = {
 
     // actions
     bootstrap: () => Promise<void>;
-    signInWithProviderToken: (provider: 'KAKAO' | 'NAVER' | 'GOOGLE', token: string) => Promise<'LOGIN_SUCCESS' | 'SIGNUP_REQUIRED'>;
+    signInWithProviderToken: (provider: 'KAKAO' | 'NAVER' | 'GOOGLE' | 'APPLE', token: string) => Promise<'LOGIN_SUCCESS' | 'SIGNUP_REQUIRED'>;
     signOut: () => Promise<void>;
     withdraw: () => Promise<void>;
     getAccessToken: () => Promise<string | null>;

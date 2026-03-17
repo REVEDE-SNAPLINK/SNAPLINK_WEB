@@ -27,12 +27,10 @@ export default async function handler(
         const protocol = req.headers['x-forwarded-proto'] || (host.includes('localhost') ? 'http' : 'https');
         
         let redirectUri: string;
-        if (host.includes('localhost')) {
-            redirectUri = 'http://localhost:5173/auth/kakao/callback';
-        } else if (host.includes('vercel.app')) {
-            redirectUri = `https://${host}/auth/kakao/callback`;
+        if (host.includes("localhost")) {
+            redirectUri = "http://localhost:5173/auth/kakao/callback";
         } else {
-            redirectUri = 'https://support.snaplink.run/auth/kakao/callback';
+            redirectUri = `https://${host}/auth/kakao/callback`;
         }
 
         // 1. 인가 코드로 토큰 받기

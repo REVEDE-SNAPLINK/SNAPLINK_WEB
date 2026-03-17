@@ -9,8 +9,10 @@ import PrivacyPolicy from "@pages/legal/PrivacyPolicy";
 import OptionalInfoConsent from "@pages/legal/OptionalInfoConsent";
 import MarketingConsent from "@pages/legal/MarketingConsent";
 import MarketingNotificationConsent from "@pages/legal/MarketingNotificationConsent";
-import KakaoLogin from "@pages/auth/KakaoLogin";
+import Login from "@pages/auth/Login";
 import KakaoCallback from "@pages/auth/KakaoCallback";
+import NaverCallback from "@pages/auth/NaverCallback";
+import AppleCallback from "@pages/auth/AppleCallback";
 import Withdraw from "@pages/auth/Withdraw";
 import CustomerService from "@pages/CustomerService";
 import EventInquiry from "@pages/EventInquiry";
@@ -30,8 +32,12 @@ function App() {
                 <Route path="/consent/optional" element={<OptionalInfoConsent />} />
                 <Route path="/consent/marketing" element={<MarketingConsent />} />
                 <Route path="/consent/notification" element={<MarketingNotificationConsent />} />
-                <Route path="/auth/kakao" element={<KakaoLogin />} />
+                <Route path="/auth/login" element={<Login />} />
+                {/* Legacy redirect: /auth/kakao → /auth/login */}
+                <Route path="/auth/kakao" element={<Login />} />
                 <Route path="/auth/kakao/callback" element={<KakaoCallback />} />
+                <Route path="/auth/naver/callback" element={<NaverCallback />} />
+                <Route path="/auth/apple/callback" element={<AppleCallback />} />
                 <Route path="/withdraw" element={<Withdraw />} />
                 <Route path="/customer-service" element={<CustomerService />} />
                 <Route path="/service" element={<Service />} />

@@ -1,8 +1,6 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import Header from "@components/common/Header";
-import Footer from "@components/common/Footer";
 import CheckIcon from "@assets/icons/check.svg";
 import { useAuthStore } from "@/store/authStore";
 
@@ -24,7 +22,7 @@ export default function Withdraw() {
 
         if (status !== "authed") {
             // 로그인 안되어 있으면 로그인 페이지로 리다이렉션
-            navigate("/auth/kakao", { replace: true });
+            navigate("/auth/login", { replace: true });
         }
     }, [status, bootstrapped, navigate]);
 
@@ -69,7 +67,6 @@ export default function Withdraw() {
 
     return (
         <>
-            <Header />
             <Container>
                 <Content>
                     <Title>회원 탈퇴</Title>
@@ -148,13 +145,11 @@ export default function Withdraw() {
                     </ButtonGroup>
                 </Content>
             </Container>
-            <Footer />
         </>
     );
 }
 
 const Container = styled.div`
-    min-height: calc(100vh - 200px);
     padding: clamp(48px, 6vw, 80px) clamp(16px, 4vw, 40px);
     box-sizing: border-box;
     display: flex;
