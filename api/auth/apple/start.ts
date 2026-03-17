@@ -14,7 +14,7 @@ export default function handler(req: VercelRequest, res: VercelResponse) {
     const host = req.headers.host || "";
     // Apple Sign In requires HTTPS — localhost is not supported by Apple
     const redirectUri = host.includes("localhost")
-        ? "https://support.snaplink.run/api/auth/apple/callback"
+        ? "https://www.snaplink.run/api/auth/apple/callback"
         : `https://${host}/api/auth/apple/callback`;
 
     const params = new URLSearchParams({
