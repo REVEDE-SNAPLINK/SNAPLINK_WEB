@@ -4,29 +4,33 @@ import styled from "styled-components";
 import { useAuthStore } from "@/store/authStore";
 import SignupRequired from "@components/auth/SignupRequired";
 
+function getInitialState(searchParams: URLSearchParams): {
+    status: "loading" | "error";
+    message: string;
+} {
+    if (searchParams.get("error")) {
+        return { status: "error", message: "로그인에 실패했습니다. 다시 시도해주세요." };
+    }
+    if (!searchParams.get("code")) {
+        return { status: "error", message: "인증 코드를 받을 수 없었습니다." };
+    }
+    return { status: "loading", message: "네이버 로그인 처리 중..." };
+}
+
 export default function NaverCallback() {
     const [searchParams] = useSearchParams();
     const navigate = useNavigate();
     const signInWithProviderToken = useAuthStore((state) => state.signInWithProviderToken);
-    const [status, setStatus] = useState<"loading" | "success" | "error" | "needs_signup">("loading");
-    const [message, setMessage] = useState("네이버 로그인 처리 중...");
+
+    const initial = getInitialState(searchParams);
+    const [status, setStatus] = useState<"loading" | "success" | "error" | "needs_signup">(initial.status);
+    const [message, setMessage] = useState(initial.message);
+
+    const code = searchParams.get("code");
+    const state = searchParams.get("state");
 
     useEffect(() => {
-        const code = searchParams.get("code");
-        const state = searchParams.get("state");
-        const error = searchParams.get("error");
-
-        if (error) {
-            setStatus("error");
-            setMessage("로그인에 실패했습니다. 다시 시도해주세요.");
-            return;
-        }
-
-        if (!code) {
-            setStatus("error");
-            setMessage("인증 코드를 받을 수 없었습니다.");
-            return;
-        }
+        if (!code) return;
 
         const handleLogin = async () => {
             try {
@@ -66,7 +70,7 @@ export default function NaverCallback() {
         };
 
         handleLogin();
-    }, [searchParams, signInWithProviderToken]);
+    }, [code, state, signInWithProviderToken]);
 
     return (
         <Container>

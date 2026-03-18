@@ -4,28 +4,38 @@ import styled from "styled-components";
 import { useAuthStore } from "@/store/authStore";
 import SignupRequired from "@components/auth/SignupRequired";
 
+function getInitialState(searchParams: URLSearchParams): {
+    status: "loading" | "error";
+    message: string;
+} {
+    const error = searchParams.get("error");
+    const token = searchParams.get("token");
+
+    if (error) {
+        return {
+            status: "error",
+            message: error === "access_denied" ? "로그인이 취소되었습니다." : "로그인에 실패했습니다. 다시 시도해주세요.",
+        };
+    }
+    if (!token) {
+        return { status: "error", message: "인증 토큰을 받을 수 없었습니다." };
+    }
+    return { status: "loading", message: "Apple 로그인 처리 중..." };
+}
+
 export default function AppleCallback() {
     const [searchParams] = useSearchParams();
     const navigate = useNavigate();
     const signInWithProviderToken = useAuthStore((state) => state.signInWithProviderToken);
-    const [status, setStatus] = useState<"loading" | "success" | "error" | "needs_signup">("loading");
-    const [message, setMessage] = useState("Apple 로그인 처리 중...");
+
+    const initial = getInitialState(searchParams);
+    const [status, setStatus] = useState<"loading" | "success" | "error" | "needs_signup">(initial.status);
+    const [message, setMessage] = useState(initial.message);
+
+    const token = searchParams.get("token");
 
     useEffect(() => {
-        const token = searchParams.get("token");
-        const error = searchParams.get("error");
-
-        if (error) {
-            setStatus("error");
-            setMessage(error === "access_denied" ? "로그인이 취소되었습니다." : "로그인에 실패했습니다. 다시 시도해주세요.");
-            return;
-        }
-
-        if (!token) {
-            setStatus("error");
-            setMessage("인증 토큰을 받을 수 없었습니다.");
-            return;
-        }
+        if (!token) return;
 
         const handleLogin = async () => {
             try {
@@ -48,7 +58,7 @@ export default function AppleCallback() {
         };
 
         handleLogin();
-    }, [searchParams, signInWithProviderToken]);
+    }, [token, signInWithProviderToken]);
 
     return (
         <Container>
