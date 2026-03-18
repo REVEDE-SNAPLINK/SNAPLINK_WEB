@@ -3,8 +3,7 @@ import type { VercelRequest, VercelResponse } from "@vercel/node";
 // Apple Sign In 후 브라우저가 최종적으로 착지할 SPA 도메인.
 // Apple의 form_post는 등록된 어떤 도메인이든 받을 수 있지만,
 // 클라이언트 라우트(/auth/apple/callback)는 이 도메인에만 존재한다.
-const SPA_BASE_URL =
-    process.env.PUBLIC_SUPPORT_URL ?? "https://www.snaplink.run";
+const SPA_BASE_URL = "https://www.snaplink.run";
 
 /**
  * Apple Sign In callback — Apple POSTs here via form_post response_mode.
