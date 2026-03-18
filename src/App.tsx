@@ -38,6 +38,7 @@ function App() {
                 <Route path="/auth/kakao/callback" element={<KakaoCallback />} />
                 <Route path="/auth/naver/callback" element={<NaverCallback />} />
                 <Route path="/auth/apple/callback" element={<AppleCallback />} />
+                <Route path="/auth/apple/return" element={<AppleCallback />} />
                 <Route path="/withdraw" element={<Withdraw />} />
                 <Route path="/customer-service" element={<CustomerService />} />
                 <Route path="/service" element={<Service />} />

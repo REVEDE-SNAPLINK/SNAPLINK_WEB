@@ -22,18 +22,18 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     if (error) {
         console.error("[Apple callback] Apple auth error:", error);
         return res.redirect(
-            `${SPA_BASE_URL}/auth/apple/callback?error=${encodeURIComponent(error)}`,
+            `${SPA_BASE_URL}/auth/apple/return?error=${encodeURIComponent(error)}`,
         );
     }
 
     if (!id_token) {
         console.error("[Apple callback] id_token missing from Apple form_post body");
         return res.redirect(
-            `${SPA_BASE_URL}/auth/apple/callback?error=missing_token`,
+            `${SPA_BASE_URL}/auth/apple/return?error=missing_token`,
         );
     }
 
     return res.redirect(
-        `${SPA_BASE_URL}/auth/apple/callback?token=${encodeURIComponent(id_token)}`,
+        `${SPA_BASE_URL}/auth/apple/return?token=${encodeURIComponent(id_token)}`,
     );
 }
