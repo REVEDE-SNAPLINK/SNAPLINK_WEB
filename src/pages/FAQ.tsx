@@ -259,7 +259,7 @@ const FAQToggleIcon = styled.img<{ $active: boolean }>`
   width: 40px;
   height: 40px;
 
-  transform: ${({ $active }) => ($active ? "rotate(90deg)" : "rotate(0deg)")};
+  transform: ${({ $active }) => ($active ? "rotate(180deg)" : "rotate(0deg)")};
   transition: transform 160ms ease;
 `;
 
